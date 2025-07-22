@@ -120,14 +120,14 @@ async def portid(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # /ipbb command
 async def ipbb(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if len(context.args) == 0:
-        await update.message.reply_text("❗ Gunakan format: /ipbb <CODE>")
+        await update.message.reply_text("❗ Gunakan format: /ipbb <IP_BB>")
         return
     code = context.args[0].strip()
     data = sheet.get_all_records()
-    result = next((row for row in data if str(row.get("CODE", "")).strip() == code), None)
+    result = next((row for row in data if str(row.get("IP_BB", "")).strip() == code), None)
     if result:
-        text = f"🌐 *CODE*: `{code}`\n*IP OLT*: `{result['IP OLT']}`"
-        log_search("IPBB", code)
+        text = f"🌐 *IP_BB*: `{code}`\n*MERK*: `{result['MERK']}`\n*NAME_NE*: `{result['NAME_NE']}`\n*STO*: `{result['STO']}`\n*VLAN_BROADBAND*: `{result['VLAN_BROADBAND']}`\n*VLAN_VOICE*: `{result['VLAN_VOICE']}`"
+        log_search("IP_BB", code)
     else:
         text = f"❌ Data tidak ditemukan untuk CODE `{code}`"
     await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
