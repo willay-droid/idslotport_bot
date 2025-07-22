@@ -30,17 +30,62 @@ def log_search(query_type, query_value):
         f.write(f"{query_type},{query_value}\n")
 
 # Command /start
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    msg = (
-        "📦 *ID SLOT PORT BOT*"
-        "Gunakan perintah berikut:"
-        "/port <CODE>"
-        "/portid <PORT_ID>"
-        "/ipbb <CODE>"
-        "/sto <STO>"
-        "/log — lihat pencarian terakhir"
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    welcome_text = (
+        "<b>Selamat datang di Bot Helpdesk!</b>\n\n"
+        "Berikut adalah daftar perintah yang tersedia:\n\n"
+        "<b>/start</b> - Menampilkan pesan ini\n"
+        "<b>/help</b> - Menampilkan bantuan umum\n"
+        "<b>/log</b> - Menampilkan log pencarian data\n\n"
+        "<b>🔍 Fitur Pencarian:</b>\n"
+        "Kirim <code>/port ipnodeframe/slot/port</code> untuk mencari:\n"
+        "• PORT_ID dan TARGET_ID\n"
+        "Command :\n"
+        "/port 172.55.xx.xxx0/x/x => HWI\n"
+        "/port 172.55.xx.xxx1-1-x-x => ZTE\n\n"
+        "Standarisasi pencarian Port GPON :\n"
+        "1-1-X-X = ZTE|ALU|FIBERHOME\n"
+        "0/X/X = HWI\n\n"
+        "Lakukan pencarian /ipbb terlebih dahulu agar bisa menentukan Merk OLT tersebut\n\n"
+        "Kirim <code>/portid idgpon</code> untuk mencari:\n"
+        "• PORT_NUMBER dan NAME_NE\n"
+        "Command : /portid 1234xxx-1234xxx\n\n"
+        "Kirim <code>/ipbb ipolt</code> untuk mencari:\n"
+        "• MERK, VLAN_BROADBAND dan VLAN_VOICE\n"
+        "Command : /ipbb 172.55.xx.xxx\n\n"
+        "Kirim <code>/sto sto</code> untuk mencari:\n"
+        "• Daftar unik NAME_NE dan VENDOR berdasarkan STO\n"
+        "Command : /sto sto\n\n"
+        "<i>Pastikan data dikirim dalam format yang sesuai.</i>"
     )
-    await update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+    await update.message.reply_text(welcome_text, parse_mode=ParseMode.HTML)
+
+# /help command
+async def show_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    help_text = (
+        "<b>Panduan Bot Helpdesk!</b>\n\n"
+        "<b>🔍 Fitur Pencarian:</b>\n"
+        "Kirim <code>/port ipnodeframe/slot/port</code> untuk mencari:\n"
+        "• PORT_ID dan TARGET_ID\n"
+        "Command :\n"
+        "/port 172.55.xx.xxx0/x/x => HWI\n"
+        "/port 172.55.xx.xxx1-1-x-x => ZTE\n\n"
+        "Standarisasi pencarian Port GPON :\n"
+        "1-1-X-X = ZTE|ALU|FIBERHOME\n"
+        "0/X/X = HWI\n\n"
+        "Lakukan pencarian /ipbb terlebih dahulu agar bisa menentukan Merk OLT tersebut\n\n"
+        "Kirim <code>/portid idgpon</code> untuk mencari:\n"
+        "• PORT_NUMBER dan NAME_NE\n"
+        "Command : /portid 1234xxx-1234xxx\n\n"
+        "Kirim <code>/ipbb ipolt</code> untuk mencari:\n"
+        "• MERK, VLAN_BROADBAND dan VLAN_VOICE\n"
+        "Command : /ipbb 172.55.xx.xxx\n\n"
+        "Kirim <code>/sto sto</code> untuk mencari:\n"
+        "• Daftar unik NAME_NE dan VENDOR berdasarkan STO\n"
+        "Command : /sto sto\n\n"
+        "<i>Pastikan data dikirim dalam format yang sesuai.</i>"
+    )
+    await update.message.reply_text(help_text, parse_mode=ParseMode.HTML)
 
 # /port command
 async def port(update: Update, context: ContextTypes.DEFAULT_TYPE):
