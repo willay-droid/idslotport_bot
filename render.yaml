@@ -1,0 +1,13 @@
+services:
+  - type: worker
+    name: telegram-odp-odc-bot
+    runtime: python
+    repo: https://github.com/your-username/your-repo-name
+    branch: main
+    buildCommand: ""
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        value: your-telegram-token
+    autoDeploy: true
+    plan: free
