@@ -139,7 +139,7 @@ async def sto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     sto_input = context.args[0].strip().upper()
-    records = worksheet.get_all_records()
+    records = sheet.get_all_records()
 
     # Ambil semua pasangan unik (NAME_NE, VENDOR) dengan STO yang sesuai
     seen = set()
