@@ -111,7 +111,7 @@ async def portid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = sheet.get_all_records()
     result = next((row for row in data if str(row.get("PORT_ID", "")).strip() == port_id), None)
     if result:
-        text = f"🔌 *PORT_ID*: `{port_id}`\n*PORT_NUMBER*: `{result['PORT_NUMBER']}`\n*NAME_NE*: `{result['NAME_NE']}`"
+        text = f"🔌 *PORT_ID*: `{port_id}`\n*PORT_NUMBER*: `{result['PORT_NUMBER']}`\n*NAME_NE*: `{result['NAME_NE']}`\n*VLAN_BROADBAND*: `{result['VLAN_BROADBAND']}`\n*VLAN_VOICE*: `{result['VLAN_VOICE']}`"
         log_search("PORTID", port_id)
     else:
         text = f"❌ Data tidak ditemukan untuk PORT_ID `{port_id}`"
