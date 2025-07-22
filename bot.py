@@ -34,11 +34,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = (
         "📦 *ID SLOT PORT BOT*"
         "Gunakan perintah berikut:"
-        "🔹 /port <CODE>"
-        "🔹 /portid <PORT_ID>"
-        "🔹 /ipbb <CODE>"
-        "🔹 /sto <STO>"
-        "🔹 /log — lihat pencarian terakhir"
+        "/port <CODE>"
+        "/portid <PORT_ID>"
+        "/ipbb <CODE>"
+        "/sto <STO>"
+        "/log — lihat pencarian terakhir"
     )
     await update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
@@ -51,9 +51,7 @@ async def port(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = sheet.get_all_records()
     result = next((row for row in data if str(row.get("CODE", "")).strip() == code), None)
     if result:
-        text = f"🔎 *CODE*: `{code}`
-*PORT_ID*: `{result['PORT_ID']}`
-*TARGET_ID*: `{result['TARGET_ID']}`"
+        text = f"🔍 *CODE*: `{code}`\n*PORT_ID*: `{result['PORT_ID']}`\n*TARGET_ID*: `{result['TARGET_ID']}`"
         log_search("PORT", code)
     else:
         text = f"❌ Data tidak ditemukan untuk CODE `{code}`"
@@ -68,9 +66,7 @@ async def portid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = sheet.get_all_records()
     result = next((row for row in data if str(row.get("PORT_ID", "")).strip() == port_id), None)
     if result:
-        text = f"🔌 *PORT_ID*: `{port_id}`
-*PORT_NUMBER*: `{result['PORT_NUMBER']}`
-*NAME_NE*: `{result['NAME_NE']}`"
+        text = f"🔌 *PORT_ID*: `{port_id}`\n*PORT_NUMBER*: `{result['PORT_NUMBER']}`\n*NAME_NE*: `{result['NAME_NE']}`"
         log_search("PORTID", port_id)
     else:
         text = f"❌ Data tidak ditemukan untuk PORT_ID `{port_id}`"
@@ -85,8 +81,7 @@ async def ipbb(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = sheet.get_all_records()
     result = next((row for row in data if str(row.get("CODE", "")).strip() == code), None)
     if result:
-        text = f"🌐 *CODE*: `{code}`
-*IP OLT*: `{result['IP OLT']}`"
+        text = f"🌐 *CODE*: `{code}`\n*IP OLT*: `{result['IP OLT']}`"
         log_search("IPBB", code)
     else:
         text = f"❌ Data tidak ditemukan untuk CODE `{code}`"
@@ -101,11 +96,9 @@ async def sto(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = sheet.get_all_records()
     matches = [row for row in data if str(row.get("STO", "")).strip().upper() == sto]
     if matches:
-        text = f"📍 Perangkat untuk STO `{sto}`:
-"
+        text = f"📍 Perangkat untuk STO `{sto}`:"
         for row in matches[:10]:  # Batasi agar tidak terlalu panjang
-            text += f"- `{row['NAME_NE']}` ({row['IP OLT']})
-"
+            text += f"- `{row['NAME_NE']}` ({row['IP OLT']})"
         log_search("STO", sto)
     else:
         text = f"❌ Tidak ada perangkat ditemukan untuk STO `{sto}`"
