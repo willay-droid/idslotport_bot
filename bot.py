@@ -109,8 +109,7 @@ async def show_log(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         with open("log.csv", "r") as f:
             lines = f.readlines()[-10:]
-        log_text = "🗂️ *Log Pencarian Terakhir:*
-" + "".join([f"- {line}" for line in lines])
+        log_text = "📋 *Log Pencarian Terakhir:*\\n" + "".join([f"- {line}" for line in lines])
     except FileNotFoundError:
         log_text = "📭 Belum ada log pencarian."
     await update.message.reply_text(log_text, parse_mode=ParseMode.MARKDOWN)
