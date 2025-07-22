@@ -134,20 +134,34 @@ async def ipbb(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # /sto command
 async def sto(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if len(context.args) == 0:
-        await update.message.reply_text("❗ Gunakan format: /sto <STO>")
+    if not context.args or len(context.args) != 1:
+        await update.message.reply_text("Gunakan format: /sto NAMA_STO")
         return
-    sto = context.args[0].strip().upper()
-    data = sheet.get_all_records()
-    matches = [row for row in data if str(row.get("STO", "")).strip().upper() == sto]
-    if matches:
-        text = f"📍 Perangkat untuk STO `{sto}`:"
-        for row in matches[:10]:  # Batasi agar tidak terlalu panjang
-            text += f"- `{row['NAME_NE']}` ({row['IP OLT']})"
-        log_search("STO", sto)
+
+    sto_input = context.args[0].strip().upper()
+    records = worksheet.get_all_records()
+
+    # Ambil semua pasangan unik (NAME_NE, VENDOR) dengan STO yang sesuai
+    seen = set()
+    unique_results = []
+
+    for row in records:
+        if row.get("STO", "").strip().upper() == sto_input:
+            name = row.get("NAME_NE", "-").strip()
+            vendor = row.get("VENDOR", "-").strip()
+            key = (name, vendor)
+            if key not in seen:
+                seen.add(key)
+                unique_results.append(key)
+
+    if unique_results:
+        response = f"📍 *Perangkat di STO {sto_input}* ({len(unique_results)} hasil unik):\n"
+        for i, (name, vendor) in enumerate(unique_results[:20], 1):
+            response += f"{i}. {name}  _{vendor}_\n"
     else:
-        text = f"❌ Tidak ada perangkat ditemukan untuk STO `{sto}`"
-    await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
+        response = f"Tidak ditemukan perangkat untuk STO '{sto_input}'."
+
+    await update.message.reply_text(response, parse_mode="Markdown")
 
 # /log command
 async def show_log(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -164,6 +178,7 @@ if __name__ == '__main__':
     print("✅ idslotport_bot is running on Render...")
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("help", show_help))
     app.add_handler(CommandHandler("port", port))
     app.add_handler(CommandHandler("portid", portid))
     app.add_handler(CommandHandler("ipbb", ipbb))
