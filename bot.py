@@ -32,21 +32,13 @@ def log_search(query_type, query_value):
 # Command /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = (
-        "📦 *ID SLOT PORT BOT*
-
-"
-        "Gunakan perintah berikut:
-"
-        "🔹 /port <CODE>
-"
-        "🔹 /portid <PORT_ID>
-"
-        "🔹 /ipbb <CODE>
-"
-        "🔹 /sto <STO>
-"
-        "🔹 /log — lihat pencarian terakhir
-"
+        "📦 *ID SLOT PORT BOT*"
+        "Gunakan perintah berikut:"
+        "🔹 /port <CODE>"
+        "🔹 /portid <PORT_ID>"
+        "🔹 /ipbb <CODE>"
+        "🔹 /sto <STO>"
+        "🔹 /log — lihat pencarian terakhir"
     )
     await update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
